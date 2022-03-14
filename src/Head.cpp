@@ -2,7 +2,7 @@
 #include <vector>
 #include <cstring>
 
-int main(int argc, char* argv[], char* env[])
+int main(int argc, char* argv[])
 {
     bool silent_mode_enabled = false;
     int  lines_to_output = -1;
@@ -34,9 +34,9 @@ int main(int argc, char* argv[], char* env[])
     {
         if(!silent_mode_enabled)
         {
-            std::cout << "Niepoprawna liczba linii lub jej brak!";
-            return 2;
+            std::cout << "Niepoprawna liczba linii lub jej brak!\n";
         }
+        return 2;
     }
 
     std::vector<std::string> stored_lines;
@@ -52,12 +52,8 @@ int main(int argc, char* argv[], char* env[])
     {
         lines_to_output = stored_lines.size();
     }
-    else
-    {
-        lines_to_output = number_of_missing_lines;
-    }
 
-    for(int i = lines_to_output; i < stored_lines.size(); i++)
+    for(int i = 0; i < lines_to_output; i++)
     {
         std::cout << stored_lines.at(i) << '\n';
     }
