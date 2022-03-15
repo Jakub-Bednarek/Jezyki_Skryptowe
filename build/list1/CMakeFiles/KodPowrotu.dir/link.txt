@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/KodPowrotu.dir/src/KodPowrotu.cpp.o  -o KodPowrotu 

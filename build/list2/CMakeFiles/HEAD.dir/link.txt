@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/HEAD.dir/src/Head.cpp.o  -o HEAD 
