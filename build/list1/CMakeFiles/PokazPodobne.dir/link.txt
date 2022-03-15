@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/PokazPodobne.dir/src/PokazPodobne.cpp.o  -o PokazPodobne 

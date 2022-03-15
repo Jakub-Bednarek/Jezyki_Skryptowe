@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/PokazWszystkiev2.dir/src/PokazWszystkiev2.cpp.o  -o PokazWszystkiev2 

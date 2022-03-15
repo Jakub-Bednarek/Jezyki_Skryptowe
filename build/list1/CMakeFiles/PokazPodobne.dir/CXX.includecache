@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/black_flage/Desktop/studia/jskryptowe/list1/src/PokazPodobne.cpp
+iostream
+-
+vector
+-
+iterator
+-
+algorithm
+-
+sysinfoapi.h
+-
+

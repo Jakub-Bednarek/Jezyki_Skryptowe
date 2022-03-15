@@ -1,3 +1,6 @@
 #build
-/src/Head
-/build
+list1/build
+list2/build
+
+#vscode
+list1/.vscode

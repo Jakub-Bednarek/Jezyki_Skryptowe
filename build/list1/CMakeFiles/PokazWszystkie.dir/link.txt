@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/PokazWszystkie.dir/src/PokazWszystkie.cpp.o  -o PokazWszystkie 

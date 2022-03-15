@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0)
-project(list2)
+project(jskryptowe)
 
-add_executable(TAIL src/Tail.cpp)
-add_executable(HEAD src/Head.cpp)
+add_subdirectory(list1)
+add_subdirectory(list2)
