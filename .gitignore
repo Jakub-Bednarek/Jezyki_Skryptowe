@@ -6,3 +6,6 @@ list3/build
 
 #vscode
 list1/.vscode
+
+#other
+list3/src/Covid.txt
