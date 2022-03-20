@@ -3,3 +3,4 @@ project(jskryptowe)
 
 add_subdirectory(list1)
 add_subdirectory(list2)
+add_subdirectory(list3)
