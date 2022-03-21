@@ -10,13 +10,13 @@ for /F "skip=1 tokens=1,6,7" %%a in (Covid.txt) do (
     )
 )
 
-SortDeaths %temp_file_name%
+SortDeaths %temp_file_name% sorted_%temp_file_name%
 
-if %best% equ y (
-    Head /S %count% temp_sorted.txt
+if %best% equ best (
+    Head /S %count% sorted_%temp_file_name%
 ) else (
-    Tail /S %count% temp_sorted.txt
+    Tail /S %count% sorted_%temp_file_name%
 )
 
 del %temp_file_name%
-del temp_sorted.txt
+del sorted_%temp_file_name%
