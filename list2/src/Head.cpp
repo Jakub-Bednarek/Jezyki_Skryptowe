@@ -1,67 +1,44 @@
 #include <iostream>
 #include <vector>
-#include <cstring>
+#include <string>
+#include <fstream>
 
 int main(int argc, char* argv[])
 {
     bool silent_mode_enabled = false;
     int  lines_to_output = -1;
-    for(int i = 1; i < argc; i++)
+    int current_arg = 1;
+    if(strcmp(argv[current_arg], "/S") == 0)
     {
-        if(strcmp(argv[i], "/S") == 0)
-        {
-            silent_mode_enabled = true;
-        }
-        else if(lines_to_output == -1)
-        {
-            try
-            {
-               lines_to_output = std::stoi(argv[i]); 
-            }
-            catch(const std::exception& e)
-            {
-                if(!silent_mode_enabled)
-                {
-                    std::cout << "Niepoprawna liczba linii lub jej brak!\n";
-                }
-                return 2;
-            }
-            
-        }
+        silent_mode_enabled = true;
+        current_arg++;
     }
 
-    if(lines_to_output == -1)
+    try
     {
-        if(!silent_mode_enabled)
-        {
-            std::cout << "Niepoprawna liczba linii lub jej brak!\n";
-        }
+        lines_to_output = std::stoi(argv[current_arg++]);
+    }
+    catch (const std::exception& e)
+    {
+        std::cout << "Invalid number of lines\n";
         return 2;
     }
 
-    std::vector<std::string> stored_lines;
-    std::string current_line;
-    while(std::cin >> current_line)
+    std::ifstream input(argv[current_arg]);
+    if (!input.is_open())
     {
-        stored_lines.push_back(current_line);
+        return 1;
     }
 
-    bool not_enough_lines_for_output = false;
-    int number_of_missing_lines = stored_lines.size() - lines_to_output;
-    if((not_enough_lines_for_output = (number_of_missing_lines < 0)))
+    int count = 0;
+    std::string line;
+    while (std::getline(input, line))
     {
-        lines_to_output = stored_lines.size();
-    }
-
-    for(int i = 0; i < lines_to_output; i++)
-    {
-        std::cout << stored_lines.at(i) << '\n';
-    }
-
-    if(not_enough_lines_for_output && !silent_mode_enabled)
-    {
-        std::cout << "Za malo linii na wejsciu: " << std::abs(number_of_missing_lines) << '\n';
-        return 2;
+        if (count < lines_to_output)
+        {
+            std::cout << line << '\n';
+            count++;
+        }
     }
 
     return 0;

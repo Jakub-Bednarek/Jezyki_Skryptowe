@@ -1,7 +1,10 @@
 #build
 list1/build
 list2/build
+list3/build
 /build
 
 #vscode
 list1/.vscode
+
+#other
