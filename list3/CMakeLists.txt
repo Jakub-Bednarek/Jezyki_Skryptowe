@@ -4,3 +4,4 @@ project(Sum)
 
 add_executable(Sum src/Sum.cpp)
 add_executable(Avg src/Avg.cpp)
+add_executable(SortDeaths src/Sort.cpp)
