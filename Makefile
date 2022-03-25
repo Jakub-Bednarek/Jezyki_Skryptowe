@@ -1,32 +1,38 @@
-SHELL=/bin/bash
-CC = g++
+SHELL  =/bin/bash
+CC 	   = g++
 CFLAGS = -std=c++17
 
 L1Path = list1/src
 L2Path = list2/src
 L3Path = list3/src
 
-TARGETS = make_dirs list1 list2 list3
+TARGETS   = make_dirs list1 list2 list3
 BUILD_DIR = build
-SUBDIRS = list1 list2 list3
+SUBDIRS   = list1 list2 list3
+
+COLOR_RED   := $(shell tput -Txterm setaf 1)
+COLOR_GREEN := $(shell tput -Txterm setaf 2)
+NO_COLOR 	:= $(shell tput -Txterm sgr0)
 
 
 # Main targets
 all: $(TARGETS)
-	@echo Finished building target all
+	@echo "${COLOR_GREEN}Finished building target all${NO_COLOR}"
 
 make_dirs: make_dirs.sh
 	@echo Running make_dirs.sh script
 	@./make_dirs.sh $(BUILD_DIR) $(SUBDIRS)
 
 list1: kodPowrotu paths pokazPodobne pokazWszystkie skrypt
-	@echo Finished building target list1
+	@echo "${COLOR_GREEN}Finished building target list1${NO_COLOR}"
 
 list2: head tail
-	@echo Finished building target list2
+	@echo "${COLOR_GREEN}Finished building target list2${NO_COLOR}"
 
-list3: avg sum
-	@echo Finished building target list3
+list3: list2 avg sum
+	@echo Running copy_list3_dependencies.sh
+	@./copy_list3_dependencies.sh $(L3Path) $(BUILD_DIR)/list3 $(BUILD_DIR)/list2
+	@echo "${COLOR_GREEN}Finished building target list3${NO_COLOR}"
 
 
 
@@ -63,9 +69,9 @@ tail:
 	@$(CC) $(CFLAGS) -o $(BUILD_DIR)/list2/tail $(L2Path)/Tail.cpp
 
 clean:
-	@echo Cleaning directory ${BUILD_DIR}
+	@echo "$(COLOR_GREEN)Cleaning directory $(BUILD_DIR) $(NO_COLOR)"
 	@$(RM) -rf $(BUILD_DIR)
-	@echo Finished
+	@echo "$(COLOR_GREEN)Finished$(NO_COLOR)"
 
 
 
