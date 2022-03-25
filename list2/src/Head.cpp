@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cstring>
 
 int main(int argc, char* argv[])
 {
