@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iterator>
+#include <cstring>
 
 int main(int argc, char* argv[])
 {
