@@ -5,34 +5,40 @@ CFLAGS = -std=c++17
 L1Path = list1/src
 L2Path = list2/src
 L3Path = list3/src
+L4Path = list4/src
 
-TARGETS   = make_dirs list1 list2 list3
-BUILD_DIR = build
-SUBDIRS   = list1 list2 list3
+TARGETS   		= make_dirs list1 list2 list3
+BUILD_DIR 		= build
+SUBDIRS   		= list1 list2 list3 list4
+SCRIPTS_DIR 	= scripts
 
-COLOR_RED   := $(shell tput -Txterm setaf 1)
-COLOR_GREEN := $(shell tput -Txterm setaf 2)
+COLOR_RED    := $(shell tput -Txterm setaf 1)
+COLOR_GREEN  := $(shell tput -Txterm setaf 2)
 COLOR_YELLOW := $(shell tput -Txterm setaf 3)
-NO_COLOR 	:= $(shell tput -Txterm sgr0)
+NO_COLOR 	 := $(shell tput -Txterm sgr0)
 
 
 # Main targets
 all: $(TARGETS)
 	@echo "${COLOR_GREEN}Finished building target all${NO_COLOR}"
 
-make_dirs: make_dirs.sh
+make_dirs: ${SCRIPTS_DIR}/make_dirs.sh
 	@echo "${COLOR_YELLOW}Running make_dirs.sh script${NO_COLOR}"
-	@./make_dirs.sh $(BUILD_DIR) $(SUBDIRS)
+	@./${SCRIPTS_DIR}/make_dirs.sh $(BUILD_DIR) $(SUBDIRS)
 
 list1: kodPowrotu paths pokazPodobne pokazWszystkie skrypt
 	@echo "${COLOR_GREEN}Finished building target list1${NO_COLOR}"
 
 list2: head tail
+	@echo "${COLOR_YELLOW}Copying available list3 batch scripts${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_batch_scripts.sh ${L3Path} ${BUILD_DIR}/list3
 	@echo "${COLOR_GREEN}Finished building target list2${NO_COLOR}"
 
 list3: list2 avg sum
 	@echo "${COLOR_YELLOW}Running copy_list3_dependencies.sh${NO_COLOR}"
-	@./copy_list3_dependencies.sh $(L3Path) $(BUILD_DIR)/list3 $(BUILD_DIR)/list2
+	@./${SCRIPTS_DIR}/copy_list3_dependencies.sh $(BUILD_DIR)/list3 $(BUILD_DIR)/list2
+	@echo "${COLOR_YELLOW}Copying available list4 batch scripts${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_batch_scripts.sh ${L4Path} ${BUILD_DIR}/list4
 	@echo "${COLOR_GREEN}Finished building target list3${NO_COLOR}"
 
 
