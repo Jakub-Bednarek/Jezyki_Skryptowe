@@ -17,9 +17,13 @@ def check_pi_precision(precision):
     return n
 
 def main():
-    if len(sys.argv) > 1: 
+    try:
         precision = int(sys.argv[1])
-        print(check_pi_precision(precision))
+    except (ValueError, IndexError):
+        print("Nieprawidlowe dane wejsciowe")
+        return
+    
+    print(check_pi_precision(precision))
     
 
 if __name__ == "__main__":
