@@ -15,8 +15,13 @@ def calculate_moving_averages(values, move):
     return result
 
 def main():
-    step = int(sys.argv[1])
-    values = list(map(float, sys.argv[2:]))
+    try:
+        step = int(sys.argv[1])
+        values = list(map(float, sys.argv[2:]))
+    except (ValueError, IndexError):
+        print("Nieprawidlowe dane wejsciowe")
+        return
+
     print(calculate_moving_averages(values, step))
 
 if __name__ == "__main__":
