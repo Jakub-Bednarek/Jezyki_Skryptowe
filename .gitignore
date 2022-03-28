@@ -7,4 +7,5 @@ list3/build
 #vscode
 list1/.vscode
 
-#other
+#python caching
+list4/src/__pycache__

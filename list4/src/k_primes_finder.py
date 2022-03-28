@@ -14,8 +14,13 @@ def calculate_k_next_primes(start_value, count):
 
 def main():
     arguments   = sys.argv[1:]
-    start_value = int(arguments[0])
-    count       = int(arguments[1])
+
+    try:
+        start_value = int(arguments[0])
+        count       = int(arguments[1])
+    except (ValueError, IndexError):
+        print("Nieprawidlowe dane wejsciowe")
+        return
     
     print(calculate_k_next_primes(start_value, count))
 
