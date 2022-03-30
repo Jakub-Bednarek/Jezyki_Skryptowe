@@ -17,4 +17,6 @@ if %count% gtr 0 (
     set /a count=count
     set /a avg=!sum! / !count!
     echo !avg:~0,-3!.!avg:~-3!
+) else (
+    echo 0.000
 )
