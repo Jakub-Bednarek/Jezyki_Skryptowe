@@ -10,7 +10,7 @@
 #define DEFAULT_MONTH_INDEX 2
 #define DEFAULT_CASES_INDEX 4
 #define EXPECTED_ARGUMENTS_SIZE 3
-#define EXPECTED_TOKENS_IN_LINE 12
+#define EXPECTED_MINIMUM_TOKENS_IN_LINE 11
 
 int get_total_cases(const std::string& month, const std::string& country);
 std::string get_month_from_arguments(char* argv[], int argv_size, int& pos);
@@ -63,7 +63,7 @@ std::string get_month_from_arguments(char* argv[], int argv_size, int& pos)
 
 int extract_cases_for_month_and_country(const std::vector<std::string>& tokens, const std::string& month, const std::string& country)
 {
-    if(tokens.size() != EXPECTED_TOKENS_IN_LINE)
+    if(tokens.size() < EXPECTED_MINIMUM_TOKENS_IN_LINE)
     {
         return 0;
     }

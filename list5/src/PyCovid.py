@@ -1,23 +1,19 @@
 from argparse import ArgumentError
-from ast import parse
-from multiprocessing.sharedctypes import Value
 import sys
 
-from click import argument
-
-DEFAULT_COVID_FILENAME = "Covid.txt"
-DEFAULT_COUNTRY = "Poland"
-DEFAULT_MONTH = "3"
-DEFAULT_COUNTRY_INDEX = 6
-DEFAULT_MONTH_INDEX = 2
-DEFAULT_CASES_INDEX = 4
-EXPECTED_TOKENS_IN_LINE = 12
+DEFAULT_COVID_FILENAME  = "Covid.txt"
+DEFAULT_COUNTRY         = "Poland"
+DEFAULT_MONTH           = "3"
+DEFAULT_COUNTRY_INDEX   = 6
+DEFAULT_MONTH_INDEX     = 2
+DEFAULT_CASES_INDEX     = 4
+EXPECTED_MINIMUM_TOKENS_IN_LINE = 11
 EXPECTED_ARGUMENTS_SIZE = 3
 
 def extract_cases(line: str, month: str, country: str) -> int:
     tokens = line.split()
     
-    if len(tokens) != EXPECTED_TOKENS_IN_LINE:
+    if len(tokens) < EXPECTED_MINIMUM_TOKENS_IN_LINE:
         return 0
     
     cases = 0
