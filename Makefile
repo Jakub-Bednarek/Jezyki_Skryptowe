@@ -6,10 +6,11 @@ L1Path = list1/src
 L2Path = list2/src
 L3Path = list3/src
 L4Path = list4/src
+L5Path = list5/src
 
-TARGETS   		= make_dirs list1 list2 list3
+TARGETS   		= makeDirs list1 list2 list3 list5
 BUILD_DIR 		= build
-SUBDIRS   		= list1 list2 list3 list4
+SUBDIRS   		= list1 list2 list3 list4 list5
 SCRIPTS_DIR 	= scripts
 
 COLOR_RED    := $(shell tput -Txterm setaf 1)
@@ -22,26 +23,28 @@ NO_COLOR 	 := $(shell tput -Txterm sgr0)
 all: $(TARGETS)
 	@echo "${COLOR_GREEN}Finished building target all${NO_COLOR}"
 
-make_dirs: ${SCRIPTS_DIR}/make_dirs.sh
+makeDirs: ${SCRIPTS_DIR}/make_dirs.sh
 	@echo "${COLOR_YELLOW}Running make_dirs.sh script${NO_COLOR}"
 	@./${SCRIPTS_DIR}/make_dirs.sh $(BUILD_DIR) $(SUBDIRS)
 
-list1: kodPowrotu paths pokazPodobne pokazWszystkie skrypt
+list1: makeDirs kodPowrotu paths pokazPodobne pokazWszystkie skrypt
 	@echo "${COLOR_GREEN}Finished building target list1${NO_COLOR}"
 
-list2: head tail
-	@echo "${COLOR_YELLOW}Copying available list3 batch scripts${NO_COLOR}"
-	@./${SCRIPTS_DIR}/copy_batch_scripts.sh ${L3Path} ${BUILD_DIR}/list3
+list2: makeDirs head tail
+	@echo "${COLOR_YELLOW}Copying available list4 python, batch scripts and txt files${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L3Path} ${BUILD_DIR}/list3
 	@echo "${COLOR_GREEN}Finished building target list2${NO_COLOR}"
 
-list3: list2 avg sum
+list3: makeDirs list2 avg sum
 	@echo "${COLOR_YELLOW}Running copy_list3_dependencies.sh${NO_COLOR}"
 	@./${SCRIPTS_DIR}/copy_list3_dependencies.sh $(BUILD_DIR)/list3 $(BUILD_DIR)/list2
-	@echo "${COLOR_YELLOW}Copying available list4 batch scripts${NO_COLOR}"
-	@./${SCRIPTS_DIR}/copy_batch_scripts.sh ${L4Path} ${BUILD_DIR}/list4
+	@echo "${COLOR_YELLOW}Copying available list4 python, batch scripts and txt files${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L4Path} ${BUILD_DIR}/list4
 	@echo "${COLOR_GREEN}Finished building target list3${NO_COLOR}"
 
-
+list5: makeDirs cppCovid javaCovid
+	@echo "${COLOR_YELLOW}Copying available list5 python scripts${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L5Path} ${BUILD_DIR}/list5
 
 # List1 targets
 kodPowrotu: $(L1Path)/KodPowrotu.cpp
@@ -90,3 +93,17 @@ avg: $(L3Path)/Utils.hpp $(L3Path)/Avg.cpp
 sum: $(L3Path)/Utils.hpp $(L3Path)/Sum.cpp
 	@echo Building target sum
 	@$(CC) $(CFLAGS) -o $(BUILD_DIR)/list3/sum $(L3Path)/Sum.cpp
+
+# List5 targets
+cppCovid: $(L5Path)/CppCovid.cpp
+	@echo Building target cppCovid
+	@$(CC) $(CFLAGS) -o $(BUILD_DIR)/list5/CppCovid $(L5Path)/CppCovid.cpp
+
+javaCovid: $(L5Path)/JavaCovid.java
+	@echo Building target javaCovid
+	@javac $(L5Path)/JavaCovid.java -d $(BUILD_DIR)/list5
+
+measure_times: list5
+	@echo
+	@echo "${COLOR_YELLOW}Running measure_list5_task2_times.sh${NO_COLOR}"
+	@./${SCRIPTS_DIR}/measure_list5_task2_times.sh $(BUILD_DIR)/list5 Germany 3

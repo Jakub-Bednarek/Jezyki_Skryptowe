@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <sstream>
 
 #define DEFAULT_COVID_FILENAME "Covid.txt"
 #define DEFAULT_COUNTRY "Poland"
@@ -38,8 +37,9 @@ int get_total_cases(const std::string& month, const std::string& country)
         const auto tokens = split_line_to_tokens(line);
 
         sum += extract_cases_for_month_and_country(tokens, month, country);
-        // std::cout << sum << '\n';
     }
+
+    input.close();
 
     return sum;
 }
@@ -84,14 +84,17 @@ int extract_cases_for_month_and_country(const std::vector<std::string>& tokens, 
 std::vector<std::string> split_line_to_tokens(const std::string& line)
 {
     std::vector<std::string> output;
-    std::stringstream ss;
-    ss << line;
 
-    std::string token;
-    while(ss >> token)
+    size_t current_pos = 0;
+    size_t found_pos = line.find('\t');
+    while(found_pos != std::string::npos)
     {
-        output.push_back(token);
+        output.push_back(line.substr(current_pos, found_pos - current_pos));
+        current_pos = found_pos + 1;
+        found_pos = line.find('\t', current_pos);
     }
+
+    output.push_back(line.substr(current_pos, line.length()));
 
     return output;
 }
