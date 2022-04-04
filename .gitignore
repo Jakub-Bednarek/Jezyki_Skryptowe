@@ -8,5 +8,5 @@ list3/build
 list1/.vscode
 
 #python caching
-list4/src/__pycache__
-list5/src/__pycache__
+list4/src/__pycache__/
+list5/src/__pycache__/Leven.cpython-38.pyc
