@@ -14,6 +14,8 @@ def for_country_a(country):
             deaths += record[4]
             cases += record[5]
             
+    execution_time = (timer() - start) * 1000
+    print("Czas wykonania dla for_country_a: %.2f" % execution_time + "ms")
     return (deaths, cases)
 
 
@@ -25,6 +27,9 @@ def for_country_d(country):
             if record[0] == country:
                 deaths += record[1]
                 cases += record[2]
+                
+    execution_time = (timer() - start) * 1000
+    print("Czas wykonania dla for_country_d: %.2f" % execution_time + "ms")
     return (deaths, cases)
 
 
@@ -36,6 +41,9 @@ def for_country_c(country):
             for record in value:
                 deaths += record[3]
                 cases += record[4]
+                
+    execution_time = (timer() - start) * 1000
+    print("Czas wykonania dla for_country_c: %.2f" % execution_time + "ms")
     return (deaths, cases)
 
 

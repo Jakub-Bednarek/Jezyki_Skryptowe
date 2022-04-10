@@ -9,7 +9,7 @@ DEFAULT_MONTH = 1
 DEFAULT_DAY = 1
 
 
-def for_country_a(year, month, day, country):
+def for_date_country_a(year, month, day, country):
     start = timer()
     deaths, cases = 0, 0
     for record in All_dates:
@@ -17,10 +17,12 @@ def for_country_a(year, month, day, country):
             deaths += record[4]
             cases += record[5]
             
+    execution_time = (timer() - start) * 1000
+    print("Czas wykonania dla for_date_country_a: %.2f" % execution_time + "ms")
     return (deaths, cases)
 
 
-def for_country_d(year, month, day, country):
+def for_date_country_d(year, month, day, country):
     start = timer()
     deaths, cases = 0, 0
     for key, value in By_date.items():
@@ -29,10 +31,13 @@ def for_country_d(year, month, day, country):
                 if record[0] == country:
                     deaths += record[1]
                     cases += record[2]
+                
+    execution_time = (timer() - start) * 1000
+    print("Czas wykonania dla for_date_country_d: %.2f" % execution_time + "ms")
     return (deaths, cases)
 
 
-def for_country_c(year, month, day, country):
+def for_date_country_c(year, month, day, country):
     start = timer()
     deaths, cases = 0, 0
     for key, value in By_country.items():
@@ -41,6 +46,9 @@ def for_country_c(year, month, day, country):
                 if(record[0], record[1], record[2]) == (year, month, day):
                     deaths += record[3]
                     cases += record[4]
+                    
+    execution_time = (timer() - start) * 1000
+    print("Czas wykonania dla for_date_country_c: %.2f" % execution_time + "ms")
     return (deaths, cases)
 
 
@@ -55,9 +63,9 @@ def parse_args(args):
 def main():
     year, month, day, country = parse_args(sys.argv)
     
-    print(for_country_a(year, month, day, country))
-    print(for_country_d(year, month, day, country))
-    print(for_country_c(year, month, day, country))
+    print(for_date_country_a(year, month, day, country))
+    print(for_date_country_d(year, month, day, country))
+    print(for_date_country_c(year, month, day, country))
 
 
 if __name__ == "__main__":
