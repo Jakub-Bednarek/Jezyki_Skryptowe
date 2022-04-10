@@ -44,16 +44,20 @@ def for_country_c(year, month, day, country):
     return (deaths, cases)
 
 
+def parse_args(args):
+    try:
+        return int(args[1]), int(args[2]), int(args[3]), args[4]
+    except:
+        print("Invalid arguments!")
+        return DEFAULT_YEAR, DEFAULT_MONTH, DEFAULT_DAY, DEFAULT_COUNTRY
+
+
 def main():
-    if len(sys.argv) < 2:
-        print("No argument provided for country!")
-        country = DEFAULT_COUNTRY
-    else:
-        country = sys.argv[1]
+    year, month, day, country = parse_args(sys.argv)
     
-    print(for_country_a(2020, 10, 10, country))
-    print(for_country_d(2020, 10, 10, country))
-    print(for_country_c(2020, 10, 10, country))
+    print(for_country_a(year, month, day, country))
+    print(for_country_d(year, month, day, country))
+    print(for_country_c(year, month, day, country))
 
 
 if __name__ == "__main__":
