@@ -1,4 +1,6 @@
+from datetime import date
 from gc import get_count
+from itertools import count
 
 
 DEFAULT_COVID_FILE_NAME = "Covid.txt"
@@ -11,19 +13,23 @@ DEFAULT_DAY_INDEX = 1
 
 def get_tuple_list_record(tokens_list):
     return (tokens_list[DEFAULT_NAME_INDEX], 
-            tokens_list[DEFAULT_YEAR_INDEX], 
-            tokens_list[DEFAULT_MONTH_INDEX], 
-            tokens_list[DEFAULT_DAY_INDEX], 
-            tokens_list[DEFAULT_DEATHS_INDEX], 
-            tokens_list[DEFAULT_CASES_INDEX])
+            int(tokens_list[DEFAULT_YEAR_INDEX]), 
+            int(tokens_list[DEFAULT_MONTH_INDEX]), 
+            int(tokens_list[DEFAULT_DAY_INDEX]), 
+            int(tokens_list[DEFAULT_DEATHS_INDEX]), 
+            int(tokens_list[DEFAULT_CASES_INDEX]))
     
 def get_date_dict_key_value(tokens_list):
-    return ((tokens_list[DEFAULT_YEAR_INDEX], tokens_list[DEFAULT_MONTH_INDEX], tokens_list[DEFAULT_DAY_INDEX]),
-            (tokens_list[DEFAULT_NAME_INDEX], tokens_list[DEFAULT_DEATHS_INDEX], tokens_list[DEFAULT_CASES_INDEX]))
+    return ((int(tokens_list[DEFAULT_YEAR_INDEX]), int(tokens_list[DEFAULT_MONTH_INDEX]), int(tokens_list[DEFAULT_DAY_INDEX])),
+            (tokens_list[DEFAULT_NAME_INDEX], int(tokens_list[DEFAULT_DEATHS_INDEX]), int(tokens_list[DEFAULT_CASES_INDEX])))
     
 def get_country_dict_key_value(tokens_list):
     return (tokens_list[DEFAULT_NAME_INDEX], 
-            (tokens_list[DEFAULT_YEAR_INDEX], tokens_list[DEFAULT_MONTH_INDEX], tokens_list[DEFAULT_DAY_INDEX], tokens_list[DEFAULT_DEATHS_INDEX], tokens_list[DEFAULT_CASES_INDEX]))
+            (int(tokens_list[DEFAULT_YEAR_INDEX]),
+            int(tokens_list[DEFAULT_MONTH_INDEX]), 
+            int(tokens_list[DEFAULT_DAY_INDEX]), 
+            int(tokens_list[DEFAULT_DEATHS_INDEX]), 
+            int(tokens_list[DEFAULT_CASES_INDEX])))
 
 def parse_data_from_file():
     all_cases = []
@@ -31,15 +37,23 @@ def parse_data_from_file():
     by_country = {}
     
     with open(DEFAULT_COVID_FILE_NAME) as file:
+        next(file)
         raw_text = file.readlines()
-        i = 0
         for line in raw_text:
             tokens = line.split()
             all_cases.append(get_tuple_list_record(tokens))
+            
             date_dict_record = get_date_dict_key_value(tokens)
-            by_date[date_dict_record[0]] = date_dict_record[1]
+            if date_dict_record[0] in by_date:
+                by_date[date_dict_record[0]].append(date_dict_record[1])
+            else:
+                by_date[date_dict_record[0]] = [date_dict_record[1]]
+                
             country_dict_record = get_country_dict_key_value(tokens)
-            by_country[country_dict_record[0]] = country_dict_record[1]
+            if country_dict_record[0] in by_country:
+                by_country[country_dict_record[0]].append(country_dict_record[1])
+            else:
+                by_country[country_dict_record[0]] = [country_dict_record[1]]
     return (all_cases, by_date, by_country)
             
 
