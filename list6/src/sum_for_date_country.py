@@ -40,7 +40,11 @@ def for_country_c(country):
 
 
 def main():
-    country = sys.argv[1]
+    if len(sys.argv) < 2:
+        print("No argument provided for country!")
+        country = DEFAULT_COUNTRY
+    else:
+        country = sys.argv[1]
     
     print(for_country_a(country))
     print(for_country_d(country))
