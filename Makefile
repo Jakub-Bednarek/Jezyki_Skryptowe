@@ -2,6 +2,9 @@ SHELL  =/bin/bash
 CC 	   = g++
 CFLAGS = -std=c++17
 
+# USER CONFIG
+TOTAL_TEST_CASES = 30
+
 L1Path = list1/src
 L2Path = list2/src
 L3Path = list3/src
@@ -116,3 +119,4 @@ measure_times: list5
 list6_raport: list6
 	@echo
 	@echo "${COLOR_YELLOW}Starting list6 raport procedure${NO_COLOR}"
+	@./${SCRIPTS_DIR}/run_list6_raport.sh ${TOTAL_TEST_CASES} ${L6Path}
