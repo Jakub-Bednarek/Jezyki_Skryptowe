@@ -7,10 +7,11 @@ L2Path = list2/src
 L3Path = list3/src
 L4Path = list4/src
 L5Path = list5/src
+L6Path = list6/src
 
-TARGETS   		= makeDirs list1 list2 list3 list5
+TARGETS   		= makeDirs list1 list2 list3 list5 list6
 BUILD_DIR 		= build
-SUBDIRS   		= list1 list2 list3 list4 list5
+SUBDIRS   		= list1 list2 list3 list4 list5 list6
 SCRIPTS_DIR 	= scripts
 
 COLOR_RED    := $(shell tput -Txterm setaf 1)
@@ -45,6 +46,10 @@ list3: makeDirs list2 avg sum
 list5: makeDirs cppCovid javaCovid
 	@echo "${COLOR_YELLOW}Copying available list5 python scripts${NO_COLOR}"
 	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L5Path} ${BUILD_DIR}/list5
+
+list6: makeDirs
+	@echo "${COLOR_YELLOW}Copying available list6 python scripts${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L6Path} ${BUILD_DIR}/list6
 
 # List1 targets
 kodPowrotu: $(L1Path)/KodPowrotu.cpp
@@ -107,3 +112,7 @@ measure_times: list5
 	@echo
 	@echo "${COLOR_YELLOW}Running measure_list5_task2_times.sh${NO_COLOR}"
 	@./${SCRIPTS_DIR}/measure_list5_task2_times.sh $(BUILD_DIR)/list5 Germany 3
+
+list6_raport: list6
+	@echo
+	@echo "${COLOR_YELLOW}Starting list6 raport procedure${NO_COLOR}"
