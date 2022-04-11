@@ -7,11 +7,15 @@ NO_COLOR='\033[0m'
 TOTAL_TEST_CASES=$1
 LIST6_PATH=$2
 
-printf "${COLOR_YELLOW}Starting list6_raport script${NO_COLOR}\n\n"
+printf "Sleeping for 3 seconds"
+sleep 3
+printf "${COLOR_YELLOW}\nStarting list6_raport script${NO_COLOR}\n\n"
 printf "${COLOR_GREEN}--------------PC SPECS--------------\n${NO_COLOR}"
 hwinfo --short
 
-printf "${COLOR_GREEN}\nStarting script_tester\n${NO_COLOR}"
+printf "Sleeping for 3 seconds"
+sleep 3
+printf "${COLOR_GREEN}\n\nStarting script_tester\n${NO_COLOR}"
 START=$(date +%s)
 
 cd ${LIST6_PATH}

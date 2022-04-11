@@ -3,7 +3,7 @@ CC 	   = g++
 CFLAGS = -std=c++17
 
 # USER CONFIG
-TOTAL_TEST_CASES = 30
+TOTAL_TEST_CASES = 10
 
 L1Path = list1/src
 L2Path = list2/src
