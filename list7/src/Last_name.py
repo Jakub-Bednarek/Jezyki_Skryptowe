@@ -21,7 +21,3 @@ class Last_name(Controlled_text):
     def __check_last_name(self, last_name):
         if not last_name.istitle():
             raise ValueError("Invalid argument for last name!")
-
-
-l1 = Last_name("Bet-Onarek")
-print(l1)

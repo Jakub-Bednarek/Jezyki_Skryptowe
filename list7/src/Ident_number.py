@@ -30,7 +30,3 @@ class Ident_number(Controlled_text):
             rest = "0" + str(rest)
 
         return new_ident_number + str(rest)
-
-
-id1 = Ident_number("9334602")
-print(id1)

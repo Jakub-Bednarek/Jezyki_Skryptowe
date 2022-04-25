@@ -22,3 +22,6 @@ class Controlled_text:
 
     def __lt__(self, other):
         return self._text < other._text
+
+    def __eq__(self, other):
+        return self.text == other.text
