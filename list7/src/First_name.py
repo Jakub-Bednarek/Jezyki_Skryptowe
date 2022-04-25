@@ -1,18 +1,20 @@
 from Controlled_text import Controlled_text
+import os
 
 DEFAULT_NAMES_FILE_NAME = "PopularneImiona.txt"
 
 
-def load_names(file_name):
+def load_data(file_name, lower=True):
     with open(file_name) as file:
-        names = set([name.lower() for name in file.read().splitlines()])
-
-    return names
+        if lower:
+            return [name.lower() for name in file.read().splitlines()]
+        else:
+            return [name for name in file.read().splitlines()]
 
 
 class First_name(Controlled_text):
     def __init__(self, first_name):
-        self.__names = load_names(DEFAULT_NAMES_FILE_NAME)
+        self.__names = set(load_data(DEFAULT_NAMES_FILE_NAME))
         self.name = first_name
 
     @property

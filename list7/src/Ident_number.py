@@ -1,4 +1,3 @@
-from unittest.mock import DEFAULT
 from Controlled_text import Controlled_text
 
 
