@@ -3,7 +3,9 @@ CC 	   = g++
 CFLAGS = -std=c++17
 
 # USER CONFIG
-TOTAL_TEST_CASES = 10
+TOTAL_LIST6_TEST_CASES = 10
+TOTAL_LIST7_TEST_CASES = 160
+LIST7_TEST_DATA_FILE_NAME = test.txt
 
 L1Path = list1/src
 L2Path = list2/src
@@ -11,10 +13,11 @@ L3Path = list3/src
 L4Path = list4/src
 L5Path = list5/src
 L6Path = list6/src
+L7Path = list7/src
 
-TARGETS   		= makeDirs list1 list2 list3 list5 list6
+TARGETS   		= makeDirs list1 list2 list3 list5 list6 list7
 BUILD_DIR 		= build
-SUBDIRS   		= list1 list2 list3 list4 list5 list6
+SUBDIRS   		= list1 list2 list3 list4 list5 list6 list7
 SCRIPTS_DIR 	= scripts
 
 COLOR_RED    := $(shell tput -Txterm setaf 1)
@@ -27,7 +30,7 @@ NO_COLOR 	 := $(shell tput -Txterm sgr0)
 all: $(TARGETS)
 	@echo "${COLOR_GREEN}Finished building target all${NO_COLOR}"
 
-makeDirs: ${SCRIPTS_DIR}/make_dirs.sh
+makeDirs: ${SCRIPTS_DIR}/make_dirs.sh clean
 	@echo "${COLOR_YELLOW}Running make_dirs.sh script${NO_COLOR}"
 	@./${SCRIPTS_DIR}/make_dirs.sh $(BUILD_DIR) $(SUBDIRS)
 
@@ -53,6 +56,12 @@ list5: makeDirs cppCovid javaCovid
 list6: makeDirs
 	@echo "${COLOR_YELLOW}Copying available list6 python scripts${NO_COLOR}"
 	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L6Path} ${BUILD_DIR}/list6
+
+list7: makeDirs
+	@echo "${COLOR_YELLOW}Copying available list7 python scripts${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L7Path} ${BUILD_DIR}/list7
+	python3 ${BUILD_DIR}/list7/Test_data_generator.py ${BUILD_DIR}/list7/ ${LIST7_TEST_DATA_FILE_NAME} ${TOTAL_LIST7_TEST_CASES}
+	python3 ${BUILD_DIR}/list7/List7_tester.py ${BUILD_DIR}/list7/ ${LIST7_TEST_DATA_FILE_NAME} ${TOTAL_LIST7_TEST_CASES}
 
 # List1 targets
 kodPowrotu: $(L1Path)/KodPowrotu.cpp
