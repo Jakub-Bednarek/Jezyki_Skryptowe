@@ -23,5 +23,11 @@ class Controlled_text:
     def __lt__(self, other):
         return self._text < other._text
 
+    def __gt__(self, other):
+        return not self < other
+
     def __eq__(self, other):
         return self.text == other.text
+
+    def __len__(self):
+        return len(self._text)

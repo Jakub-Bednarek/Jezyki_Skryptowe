@@ -36,8 +36,8 @@ def run_test(path, test_data_file_name):
         print("\t" + line + "\n")
 
     print("\nFinished running test scenario, results:")
-    print(f"{bcolors.OKGREEN}Success{bcolors.ENDC}: {success}")
-    print(f"{bcolors.OKRED}Failure{bcolors.ENDC}: {failure}")
+    print(f"\t{bcolors.OKGREEN}Success{bcolors.ENDC}: {success}")
+    print(f"\t{bcolors.OKRED}Failure{bcolors.ENDC}: {failure}")
 
 
 def parse_args():
