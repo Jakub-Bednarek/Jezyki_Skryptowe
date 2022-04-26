@@ -13,10 +13,6 @@ class Ident_number(Controlled_text):
     def id_number(self):
         return self._text
 
-    @id_number.getter
-    def id_number(self):
-        return self._text
-
     def __check_ident_number(self, new_ident_number):
         if len(new_ident_number) != 7 or not new_ident_number.isnumeric():
             raise ValueError("Invalid Ident Number provided!")

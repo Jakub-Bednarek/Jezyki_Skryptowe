@@ -9,10 +9,6 @@ class Last_name(Controlled_text):
     def lname(self):
         return self._text
 
-    @lname.getter
-    def lname(self):
-        return self._text
-
     @lname.setter
     def lname(self, new_lname):
         self.__check_last_name(new_lname)

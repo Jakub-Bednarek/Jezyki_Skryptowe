@@ -6,10 +6,6 @@ class Controlled_text:
     def text(self):
         return self._text
 
-    @text.getter
-    def text(self):
-        return self._text
-
     @text.setter
     def text(self, new_text):
         if not new_text.isprintable() or " " in new_text:
