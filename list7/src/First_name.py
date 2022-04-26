@@ -1,7 +1,7 @@
 from Controlled_text import Controlled_text
 import os
 
-DEFAULT_NAMES_FILE_NAME = "PopularneImiona.txt"
+DEFAULT_NAMES_FILE_NAME = "build/list7/PopularneImiona.txt"
 
 
 def load_data(file_name, lower=True):
@@ -13,8 +13,9 @@ def load_data(file_name, lower=True):
 
 
 class First_name(Controlled_text):
+    names = set(load_data(DEFAULT_NAMES_FILE_NAME))
+
     def __init__(self, first_name):
-        self.__names = set(load_data(DEFAULT_NAMES_FILE_NAME))
         self.name = first_name
 
     @property
@@ -31,7 +32,7 @@ class First_name(Controlled_text):
         self.text = new_name.title()
 
     def __check_name(self, new_name):
-        if new_name not in self.__names:
+        if new_name not in self.names:
             raise ValueError("Name doesn't exist in database")
         else:
             return True

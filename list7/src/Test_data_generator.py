@@ -60,7 +60,7 @@ def gen_data(names, last_male, last_female):
 
 
 def generate_data(path, file_name, count):
-    names = load_data(path + DEFAULT_NAMES_FILE_NAME)
+    names = load_data(DEFAULT_NAMES_FILE_NAME)
     last_female = load_data(path + DEFAULT_FEMALE_LAST_NAME_FILE)
     last_male = load_data(path + DEFAULT_MALE_LAST_NAME_FILE)
     output_string = ""

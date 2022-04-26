@@ -28,7 +28,7 @@ def run_test(path, test_data_file_name):
                 f"{bcolors.OKGREEN}Success creating Person with parameters: {bcolors.ENDC}"
             )
             success += 1
-        except:
+        except ValueError as Err:
             print(
                 f"{bcolors.OKRED}Failure creating Person with parameters: {bcolors.ENDC}"
             )

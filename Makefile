@@ -60,8 +60,8 @@ list6: makeDirs
 list7: makeDirs
 	@echo "${COLOR_YELLOW}Copying available list7 python scripts${NO_COLOR}"
 	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L7Path} ${BUILD_DIR}/list7
-	python3 ${BUILD_DIR}/list7/Test_data_generator.py ${BUILD_DIR}/list7/ ${LIST7_TEST_DATA_FILE_NAME} ${TOTAL_LIST7_TEST_CASES}
-	python3 ${BUILD_DIR}/list7/List7_tester.py ${BUILD_DIR}/list7/ ${LIST7_TEST_DATA_FILE_NAME} ${TOTAL_LIST7_TEST_CASES}
+	python3 ${BUILD_DIR}/list7/Test_data_generator.py build/list7/ ${LIST7_TEST_DATA_FILE_NAME} ${TOTAL_LIST7_TEST_CASES}
+	python3 ${BUILD_DIR}/list7/List7_tester.py build/list7/ ${LIST7_TEST_DATA_FILE_NAME}
 
 # List1 targets
 kodPowrotu: $(L1Path)/KodPowrotu.cpp
