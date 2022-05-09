@@ -1,12 +1,12 @@
 from enum import Enum
 from typing import List
+import datetime
+
+from pytz import country_timezones
 from logger import log_info, log_warn, log_error
 
 DEFAULT_COUNTRY = "Poland"
 DEFAULT_CONTINENT = "Europe"
-
-test_country_set = set(["poland", "pfghanistan"])
-test_continent_set = set(["asia", "europe", "africa", "america", "oceania"])
 
 
 class Command(Enum):
@@ -71,24 +71,34 @@ def parse_date(tokens, begin=True):
 
     tokens_to_skip = 1
     if begin:
-        month_str, day_str = "month_begin", "day_begin"
+        date_str = "date_begin"
     else:
-        month_str, day_str = "month_end", "day_end"
+        date_str = "date_end"
 
-    output_seq = None
+    output_month = "1"
+    output_day = None
     for month in Month:
         if month.name.lower() == tokens[0]:
-            output_seq = [(month_str, month.value)]
+            output_month = month.value
 
     if len(tokens) > 1:
+        tokens_to_skip = 2
         try:
-            day = int(tokens[1])
-            tokens_to_skip = 2
-            output_seq.append((day_str, day))
+            output_day = int(tokens[1])
         except:
             pass
 
-    return (tokens[tokens_to_skip:], output_seq)
+    try:
+        date_out = datetime.datetime.strptime(
+            f"{output_day}-{output_month}-2020", "%d-%m-%Y"
+        )
+    except:
+        if begin:
+            date_out = datetime.datetime.strptime("1-1-2020", "%d-%m-%Y")
+        else:
+            date_out = datetime.datetime.strptime("31-12-2020", "%d-%m-%Y")
+
+    return (tokens[tokens_to_skip:], [(date_str, date_out)])
 
 
 def parse_request_type(tokens):
@@ -111,13 +121,43 @@ def parse_total_setting(tokens):
 
 
 def parse_country_or_continent(tokens):
-    if tokens[0] in test_country_set:
-        return (tokens[1:], ("country", tokens[0]))
-    elif tokens[0] in test_continent_set:
-        return (tokens[1:], ("continentExp", tokens[0]))
+    if len(TaskRequest.countries) == 0 and len(TaskRequest.continents) == 0:
+        log_error(
+            f"Failed to find country or continent: {tokens[0]}, load data file first!"
+        )
+        return (tokens[1:], None)
+
+    if tokens[0] in TaskRequest.countries:
+        return (tokens[1:], [("country", tokens[0])])
+    elif tokens[0] in TaskRequest.continents:
+        return (tokens[1:], [("continent", tokens[0])])
 
     log_error(f"Invalid argument for 'in' command: {tokens[0]}")
     return (tokens[1:], None)
+
+
+def parse_single_day(tokens):
+    try:
+        return (tokens[1:], [("day", int(tokens[0]))])
+    except:
+        return (tokens[1:], [("day"), None])
+
+
+def parse_sort(tokens):
+    order = None
+    data_type = None
+    tokens_to_skip = 1
+
+    if len(tokens) > 0:
+        if tokens[0] == "date" or tokens[0] == "deaths" or tokens[0] == "cases":
+            data_type = tokens[0]
+
+    if len(tokens) > 1:
+        if tokens[1] == "ascending" or tokens[1] == "descending":
+            order = tokens[1]
+            tokens_to_skip = 2
+
+    return (tokens[tokens_to_skip:], [("sort_type", data_type), ("sort_order", order)])
 
 
 str_to_command = {
@@ -133,28 +173,35 @@ set_to_command = {
     "type": parse_request_type,
     "total": parse_total_setting,
     "in": parse_country_or_continent,
+    "on": parse_single_day,
+    "sort": parse_sort,
 }
 
 
 class TaskRequest:
+    countries = set()
+    continents = set()
+
     def __init__(self):
         self.__execution_sequence: List[str] = []
-        self.__execute_now = False
-        self.__finished = False
 
-    def get_execute_now(self) -> bool:
-        return self.__execute_now
+    def reset_sequence(self):
+        self.__execution_sequence = []
 
-    def get_finish_now(self) -> bool:
-        return self.__finished
+    def set_continents(self, continents):
+        TaskRequest.continents = continents
+
+    def set_countries(self, countries):
+        TaskRequest.countries = countries
 
     def get_execution_sequence(self):
-        if not len(self.__execution_sequence):
-            log_error("Execution_sequence is empty, add commands first!")
-        else:
+        if self.__execution_sequence:
             return self.__execution_sequence
 
-    #
+    def remove_last_query(self):
+        if len(self.__execution_sequence) > 0:
+            self.__execution_sequence = self.__execution_sequence[:-1]
+
     def add_cmd(self, cmd: str):
         log_info(f"Adding new cmd: {cmd}")
         tokens = [token.lower() for token in cmd.split()]
@@ -162,7 +209,7 @@ class TaskRequest:
 
         while len(tokens) > 0:
             if tokens[0] == "set":
-                self.__execution_sequence = str_to_command["set"](tokens[1:])
+                self.__execution_sequence.extend(str_to_command["set"](tokens[1:]))
                 return
             elif tokens[0] in str_to_command:
                 single_command = str_to_command[tokens[0]]()
