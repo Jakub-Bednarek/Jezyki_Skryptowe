@@ -1,13 +1,20 @@
 from app import App
-from console import print_choice_menu
+import sys
+
+
+def check_if_show_gui():
+    args = sys.argv
+
+    for arg in args:
+        if arg == "-g":
+            return True
+
+    return False
 
 
 def main():
-    app = App()
-
-    while not app.should_terminate():
-        print_choice_menu()
-        app.get_input()
+    app = App(check_if_show_gui())
+    app.run()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,12 @@
 from task_request import TaskRequest
 from logger import msg_logger, log_error, log_info
-from console import get_integer, get_string
+from console import get_integer, get_string, print_choice_menu
+from gui import (
+    set_check_actions_callback,
+    set_load_file_callback,
+    set_new_command_callback,
+)
+import gui
 import datetime
 
 DEFAULT_DATE_INDEX = 0
@@ -151,12 +157,17 @@ def sort_data_record_deaths(data_record):
 
 
 class App:
-    def __init__(self):
+    def __init__(self, show_gui=False):
         self.__request = TaskRequest()
         self.__file_data = []
         self.__should_terminate = False
         self.__settings = None
+        self.__gui = gui.GUI() if show_gui else None
         msg_logger.init_logger("Test.log")
+
+        set_new_command_callback(self.__request.add_cmd)
+        set_load_file_callback(self.load_data)
+        set_check_actions_callback(self.check_for_actions)
 
         log_info("Initialized app")
 
@@ -189,6 +200,15 @@ class App:
     def set_countries(self, countries):
         self.__request.set_countries(countries)
 
+    def run(self):
+        if not self.__gui:
+            while not self.__should_terminate:
+                print_choice_menu()
+                self.get_input()
+        else:
+            self.__gui.run()
+            log_info("Terminating app")
+
     def get_input(self):
         choice = get_integer("Choice")
         if choice == 1:
@@ -219,10 +239,10 @@ class App:
 
         return True
 
-    def show_data(self):
+    def get_valid_records(self):
         sum = 0
         valid_records = []
-        log_info("\nBeginning data analysis.")
+        log_info("Beginning data analysis.")
         for record in self.__file_data:
             if record.is_valid(self.__settings):
                 valid_records.append(record)
@@ -233,11 +253,16 @@ class App:
 
         if self.__settings.sort_type:
             valid_records = self.sort_data(valid_records)
+        return valid_records
 
+    def show_data(self):
+        valid_records = self.get_valid_records()
         for record in valid_records:
             log_info(str(record))
         if self.__settings.total:
             log_info(f"Total value for {self.__settings.type}: {sum}")
+        if self.__gui:
+            self.__gui.add_text_to_main_area(valid_records)
 
     def sort_data(self, data):
         reverse = False if self.__settings.sort_order == "ascending" else True
