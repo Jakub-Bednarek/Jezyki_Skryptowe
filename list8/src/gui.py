@@ -32,7 +32,7 @@ def set_log_file():
 
 def load_file_command():
     file_name = create_popup_window("Zaladuj plik z danymi", "Nazwa")
-    if load_file_callback and file_name != "":
+    if load_file_callback and file_name and file_name != "":
         load_file_callback(file_name, 1)
 
 
@@ -40,7 +40,9 @@ def get_new_command():
     command = create_popup_window("Dodawanie nowej komendy", "Komenda")
     if new_command_callback and command != "":
         new_command_callback(command)
-    log_info(command)
+    else:
+        log_info(f"Provided cmd is empty!")
+        return
     check_actions_callback()
 
 
@@ -53,7 +55,7 @@ class GUI:
         self.__root = tk.Tk()
         frm = ttk.Frame(self.__root)
         self.__text_area = scrolledtext.ScrolledText(
-            self.__root, wrap=tk.WORD, width=40, height=10, font=("Times New Roman", 8)
+            self.__root, wrap=tk.WORD, width=100, height=40, font=("Times New Roman", 8)
         )
         self.__text_area.grid(column=0, row=0)
         frm.grid(column=1, row=0)
@@ -72,4 +74,4 @@ class GUI:
     def add_text_to_main_area(self, data):
         self.__text_area.delete("0.0", tk.END)
         for record in data:
-            self.__text_area.insert(tk.END, record)
+            self.__text_area.insert(tk.END, f"{record}\n")

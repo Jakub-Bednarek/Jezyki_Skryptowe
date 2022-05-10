@@ -25,8 +25,9 @@ class Logger:
 
     def set_logger_file(self, file_name):
         try:
+            new_file_handle = open(file_name, "w+", encoding="utf-8")
             self.__file_handle.close()
-            self.__file_handle = open(file_name, "w+", encoding="utf-8")
+            self.__file_handle = new_file_handle
             self.__file_name = file_name
             log_info(f"Succesfully set file for logger: {file_name}")
         except:

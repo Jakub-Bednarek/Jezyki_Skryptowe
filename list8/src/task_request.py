@@ -1,6 +1,7 @@
 from enum import Enum
 from typing import List
 import datetime
+import calendar
 
 from pytz import country_timezones
 from logger import log_info, log_warn, log_error
@@ -64,6 +65,31 @@ def get_exit_command():
     return "exit"
 
 
+def check_if_ready_date(token):
+    try:
+        return datetime.datetime.strptime(token, "%d.%m.%Y")
+    except:
+        return None
+
+
+def convert_date(output_day, output_month, begin):
+    date_out = None
+    try:
+        date_out = datetime.datetime.strptime(
+            f"{output_day}-{output_month}-2020", "%d-%m-%Y"
+        )
+    except:
+        if begin:
+            date_out = datetime.datetime.strptime(f"1-{output_month}-2020", "%d-%m-%Y")
+        else:
+            date_out = datetime.datetime.strptime(
+                f"{calendar.monthrange(2020, output_month)[1]}-{output_month}-2020",
+                "%d-%m-%Y",
+            )
+
+    return date_out
+
+
 def parse_date(tokens, begin=True):
     if len(tokens) < 1:
         log_error("Invalid number of arguments in set date function!")
@@ -75,6 +101,10 @@ def parse_date(tokens, begin=True):
     else:
         date_str = "date_end"
 
+    date_out = check_if_ready_date(tokens[0])
+    if date_out:
+        return (tokens[1:], [(date_str, date_out)])
+
     output_month = "1"
     output_day = None
     for month in Month:
@@ -82,21 +112,13 @@ def parse_date(tokens, begin=True):
             output_month = month.value
 
     if len(tokens) > 1:
-        tokens_to_skip = 2
         try:
             output_day = int(tokens[1])
+            tokens_to_skip = 2
         except:
             pass
 
-    try:
-        date_out = datetime.datetime.strptime(
-            f"{output_day}-{output_month}-2020", "%d-%m-%Y"
-        )
-    except:
-        if begin:
-            date_out = datetime.datetime.strptime("1-1-2020", "%d-%m-%Y")
-        else:
-            date_out = datetime.datetime.strptime("31-12-2020", "%d-%m-%Y")
+    date_out = convert_date(output_day, output_month, begin)
 
     return (tokens[tokens_to_skip:], [(date_str, date_out)])
 
