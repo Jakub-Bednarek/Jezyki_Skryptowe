@@ -24,6 +24,26 @@ DEFAULT_DEATHS_INDEX = 5
 DEFAULT_COUNTRY_INDEX = 6
 DEFAULT_CONTINENT_INDEX = 10
 
+"""
+Jezyk zapytan:
+Mamy dostep do 4 podstawowych komend: set, reset, show, exit
+
+-reset: resetuje sekwencje zapisanych polecen
+-show: pokazuje rezultaty na podstawie wprowadzonych wczesniej polecen
+-exit: konczy prace programu
+-set: sluzy do wprowadzania ustawien, mozemy tutaj wpisac dowolna kombinacje komend z grupy set
+
+Grupa komend set:
+-from [miesiac] [dzien] lub [data] - ustawia dolne kryterium daty do sprawdzania (Przyklad: "set from july 15" lub "set from 15.06.2020")
+-to [miesiac] [dzien] lub [data] - ustawia gorne kryterium daty (Przyklad: "set to august 15" lub "set from 15.09.2020")
+-type [cases] lub [deaths]: ustawia typ sumowania danych na smierci lub przpadki (Przyklad: "set type cases")
+-total [true] lub [false]: ustawia nam sumowanie podanych przez komende type danych (Przyklad: "set total true")
+-in [kraj] lub [kontynent]: ustawia wyszukiwanie rekordow dla konkretnego kraju badz kontynenty (Przyklad: "set in poland")
+-on [numer_dnia]: ustawia nam wyszukiwanie dla konkretnego, pojedynczego dnia, nie wyklucza komend from oraz to (Przyklad: "set on 20")
+-sort [typ_danych_do_sortowania] [kolejnosc]: ustawia sortowanie danych wg kryterium (dostepne: date, deaths, cases), oraz kolejnosc sortowania (ascending, descending)
+(Przyklad: "set sort cases ascending")
+"""
+
 
 class App:
     def __init__(self, show_gui=False):
@@ -113,7 +133,7 @@ class App:
         valid_records = []
         log_info("Beginning data analysis.")
         for record in self.__file_data:
-            if record.is_valid(self.__settings):
+            if record and record.is_valid(self.__settings):
                 valid_records.append(record)
                 if self.__settings.type == "deaths":
                     sum += record.get_deaths()
@@ -166,11 +186,14 @@ class App:
         if len(tokens) < 11:
             return None
 
-        return (
-            record.add_date(tokens[DEFAULT_DAY_INDEX], tokens[DEFAULT_MONTH_INDEX])
-            .add_day(tokens[DEFAULT_DAY_INDEX])
-            .add_cases(tokens[DEFAULT_CASES_INDEX])
-            .add_deaths(tokens[DEFAULT_DEATHS_INDEX])
-            .add_country(tokens[DEFAULT_COUNTRY_INDEX])
-            .add_continent(tokens[DEFAULT_CONTINENT_INDEX])
-        )
+        try:
+            return (
+                record.add_date(tokens[DEFAULT_DAY_INDEX], tokens[DEFAULT_MONTH_INDEX])
+                .add_day(tokens[DEFAULT_DAY_INDEX])
+                .add_cases(tokens[DEFAULT_CASES_INDEX])
+                .add_deaths(tokens[DEFAULT_DEATHS_INDEX])
+                .add_country(tokens[DEFAULT_COUNTRY_INDEX])
+                .add_continent(tokens[DEFAULT_CONTINENT_INDEX])
+            )
+        except:
+            raise RuntimeError("Wrong file format, can't parse DataRecord")

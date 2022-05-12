@@ -44,7 +44,7 @@ class Logger:
             print(f"Failed to log msg to file: {self.__log_file_name}, error: {e}")
 
     def __get_formatted_msg(self, msg: str, prefix: str):
-        time = datetime.now().strftime("%H:%M:%S")
+        time = datetime.now().strftime("%d.%m.%Y-%H:%M:%S")
         return f"[{time}][{prefix}] {msg}\n"
 
 

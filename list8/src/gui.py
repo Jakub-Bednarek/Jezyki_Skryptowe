@@ -53,6 +53,7 @@ def create_popup_window(title, prompt):
 class GUI:
     def create_gui(self):
         self.__root = tk.Tk()
+        self.__root.title("Jezyki Skryptowe 9")
         frm = ttk.Frame(self.__root)
         self.__text_area = scrolledtext.ScrolledText(
             self.__root, wrap=tk.WORD, width=100, height=40, font=("Times New Roman", 8)

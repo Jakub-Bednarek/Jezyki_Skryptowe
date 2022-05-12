@@ -3,7 +3,6 @@ from typing import List
 import datetime
 import calendar
 
-from pytz import country_timezones
 from logger import log_info, log_warn, log_error
 
 DEFAULT_COUNTRY = "Poland"
@@ -225,6 +224,10 @@ class TaskRequest:
             self.__execution_sequence = self.__execution_sequence[:-1]
 
     def add_cmd(self, cmd: str):
+        if not cmd:
+            log_warn("Added command is empty!")
+            return
+            
         log_info(f"Adding new cmd: {cmd}")
         tokens = [token.lower() for token in cmd.split()]
         single_command = None
