@@ -1,4 +1,4 @@
-from logger import log_error
+from helpers.logger import log_error
 import datetime
 
 

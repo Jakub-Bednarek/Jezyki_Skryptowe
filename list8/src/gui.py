@@ -2,7 +2,7 @@ from tabnanny import check
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext, simpledialog
-from list8.src.helpers.logger import msg_logger, log_info
+from helpers.logger import msg_logger, log_info
 
 commands_queue = []
 new_command_callback = None
@@ -33,7 +33,7 @@ def set_log_file():
 def load_file_command():
     file_name = create_popup_window("Zaladuj plik z danymi", "Nazwa")
     if load_file_callback and file_name and file_name != "":
-        load_file_callback(file_name, 1)
+        load_file_callback(file_name)
 
 
 def get_new_command():

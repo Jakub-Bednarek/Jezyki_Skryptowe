@@ -14,3 +14,4 @@ list6/src/__pycache__/
 list7/src/__pycache__/
 list8/src/__pycache__/
 list8/src/helpers/__pycache__/
+list8/src/*.log

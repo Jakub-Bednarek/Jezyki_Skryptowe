@@ -3,7 +3,7 @@ from typing import List
 import datetime
 import calendar
 
-from list8.src.helpers.logger import log_info, log_warn, log_error
+from helpers.logger import log_info, log_warn, log_error
 
 DEFAULT_COUNTRY = "Poland"
 DEFAULT_CONTINENT = "Europe"

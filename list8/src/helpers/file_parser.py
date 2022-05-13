@@ -1,6 +1,6 @@
 from typing import List
-from data_record import DataRecord
-from logger import log_info, log_error, log_warn
+from helpers.data_record import DataRecord
+from helpers.logger import log_info, log_error, log_warn
 
 
 class InvalidFileFormatException(Exception):

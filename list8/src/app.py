@@ -1,13 +1,14 @@
 from task_request import TaskRequest
-from list8.src.helpers.logger import msg_logger, log_error, log_info
+from helpers.logger import msg_logger, log_info
 from console import get_integer, get_string, print_choice_menu
-from list8.src.helpers.data_record import (
-    Settings,
+from helpers.data_record import (
     DataRecord,
-    sort_data_record_date,
+    Settings,
     sort_data_record_cases,
+    sort_data_record_date,
     sort_data_record_deaths,
 )
+from helpers.file_parser import load_file
 from gui import (
     set_check_actions_callback,
     set_load_file_callback,
@@ -51,28 +52,12 @@ class App:
 
         log_info("Initialized app")
 
-    def load_data(self, file_name, skip=0):
-        available_continents = set()
-        available_countries = set()
-        try:
-            with open(file_name, "r") as file:
-                for line in file.readlines()[skip:]:
-                    tokens = line.split()
-                    record = self.__parse_data_tokens(tokens)
-
-                    if record:
-                        self.__file_data.append(record)
-                        available_countries.add(tokens[DEFAULT_COUNTRY_INDEX].lower())
-                        available_continents.add(
-                            tokens[DEFAULT_CONTINENT_INDEX].lower()
-                        )
-        except:
-            log_error(f"Failed to load file: {file_name}")
-            return
-
-        self.set_continents(available_continents)
-        self.set_countries(available_countries)
-        log_info(f"Loaded file: {file_name}")
+    def load_data(self, file_path):
+        records, countries, continents = (
+            load_file(file_path) if not None else None,
+            None,
+            None,
+        )
 
     def set_continents(self, continents):
         self.__request.set_continents(continents)
@@ -93,7 +78,7 @@ class App:
         choice = get_integer("Choice")
         if choice == 1:
             file_path = get_string("File path")
-            self.load_data(file_path, 1)
+            self.load_data(file_path)
         elif choice == 2:
             file_path = get_string("File path")
             msg_logger.set_logger_file(file_path)
@@ -171,20 +156,3 @@ class App:
 
     def should_terminate(self):
         return self.__should_terminate
-
-    def __parse_data_tokens(self, tokens):
-        record = DataRecord()
-        if len(tokens) < 11:
-            return None
-
-        try:
-            return (
-                record.add_date(tokens[DEFAULT_DAY_INDEX], tokens[DEFAULT_MONTH_INDEX])
-                .add_day(tokens[DEFAULT_DAY_INDEX])
-                .add_cases(tokens[DEFAULT_CASES_INDEX])
-                .add_deaths(tokens[DEFAULT_DEATHS_INDEX])
-                .add_country(tokens[DEFAULT_COUNTRY_INDEX])
-                .add_continent(tokens[DEFAULT_CONTINENT_INDEX])
-            )
-        except:
-            raise RuntimeError("Wrong file format, can't parse DataRecord")
