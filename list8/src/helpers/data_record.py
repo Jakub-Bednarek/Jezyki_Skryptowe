@@ -1,4 +1,4 @@
-from logger import log_error, log_info
+from logger import log_error
 import datetime
 
 
@@ -53,24 +53,15 @@ class DataRecord:
         return self
 
     def add_day(self, day):
-        try:
-            self.day = int(day)
-        except:
-            self.day = None
+        self.day = int(day)
         return self
 
     def add_deaths(self, deaths):
-        try:
-            self.deaths = int(deaths)
-        except:
-            self.deaths = 0
+        self.deaths = int(deaths)
         return self
 
     def add_cases(self, cases):
-        try:
-            self.cases = int(cases)
-        except:
-            self.cases = 0
+        self.cases = int(cases)
         return self
 
     def add_country(self, country):
@@ -82,18 +73,10 @@ class DataRecord:
         return self
 
     def get_cases(self):
-        try:
-            return int(self.cases)
-        except:
-            log_error(f"Failed to cast cases value to int: {self.deaths}")
-            return 0
+        return self.cases
 
     def get_deaths(self):
-        try:
-            return int(self.deaths)
-        except:
-            log_error(f"Failed to cast deaths value to int: {self.deaths}")
-            return 0
+        return self.deaths
 
     def is_date_valid(self, date_begin, date_end, day):
         result = True
@@ -137,4 +120,3 @@ def sort_data_record_cases(data_record):
 
 def sort_data_record_deaths(data_record):
     return data_record.deaths
-

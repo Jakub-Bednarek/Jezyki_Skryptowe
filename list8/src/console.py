@@ -85,4 +85,3 @@ def print_choice_menu():
     print("2. Set log file")
     print("3. Add command")
     print("4. Show current query")
-

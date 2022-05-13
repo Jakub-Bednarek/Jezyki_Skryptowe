@@ -3,7 +3,7 @@ from typing import List
 import datetime
 import calendar
 
-from logger import log_info, log_warn, log_error
+from list8.src.helpers.logger import log_info, log_warn, log_error
 
 DEFAULT_COUNTRY = "Poland"
 DEFAULT_CONTINENT = "Europe"
@@ -227,7 +227,7 @@ class TaskRequest:
         if not cmd:
             log_warn("Added command is empty!")
             return
-            
+
         log_info(f"Adding new cmd: {cmd}")
         tokens = [token.lower() for token in cmd.split()]
         single_command = None

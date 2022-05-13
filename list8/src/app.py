@@ -1,7 +1,7 @@
 from task_request import TaskRequest
-from logger import msg_logger, log_error, log_info
+from list8.src.helpers.logger import msg_logger, log_error, log_info
 from console import get_integer, get_string, print_choice_menu
-from helpers import (
+from list8.src.helpers.data_record import (
     Settings,
     DataRecord,
     sort_data_record_date,
@@ -14,15 +14,6 @@ from gui import (
     set_new_command_callback,
 )
 import gui
-
-DEFAULT_DATE_INDEX = 0
-DEFAULT_DAY_INDEX = 1
-DEFAULT_MONTH_INDEX = 2
-DEFAULT_YEAR_INDEX = 3
-DEFAULT_CASES_INDEX = 4
-DEFAULT_DEATHS_INDEX = 5
-DEFAULT_COUNTRY_INDEX = 6
-DEFAULT_CONTINENT_INDEX = 10
 
 """
 Jezyk zapytan:

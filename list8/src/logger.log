@@ -1,6 +1,0 @@
-[10.05.2022-13:53:29][INFO] Succesfully set file for logger: logger.log
-[10.05.2022-13:53:41][INFO] Adding new cmd: set from may 10 to june 20 in poland
-[10.05.2022-13:53:41][INFO] Adding parsed_command: [('date_begin', datetime.datetime(2020, 5, 10, 0, 0))]
-[10.05.2022-13:53:41][INFO] Adding parsed_command: [('date_end', datetime.datetime(2020, 6, 20, 0, 0))]
-[10.05.2022-13:53:41][INFO] Adding parsed_command: [('country', 'poland')]
-[10.05.2022-13:59:05][INFO] Terminating app

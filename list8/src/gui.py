@@ -2,7 +2,7 @@ from tabnanny import check
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext, simpledialog
-from logger import msg_logger, log_info
+from list8.src.helpers.logger import msg_logger, log_info
 
 commands_queue = []
 new_command_callback = None
