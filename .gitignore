@@ -16,6 +16,8 @@ list8/src/__pycache__/
 list8/src/helpers/__pycache__/
 list8/src/*.log
 list9/src/__pycache__
+list9/src/helpers/__pycache__
 list9/src/helpers/data_record.py
 list9/src/helpers/file_parser.py
 list9/src/helpers/logger.py
+list9/src/*.log
