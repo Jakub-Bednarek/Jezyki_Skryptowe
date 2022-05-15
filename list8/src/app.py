@@ -1,5 +1,5 @@
 from task_request import TaskRequest
-from helpers.logger import msg_logger, log_info
+from helpers.logger import msg_logger, log_info, log_warn
 from console import get_integer, get_string, print_choice_menu
 from helpers.data_record import (
     DataRecord,
@@ -53,11 +53,13 @@ class App:
         log_info("Initialized app")
 
     def load_data(self, file_path):
-        records, countries, continents = (
-            load_file(file_path) if not None else None,
-            None,
-            None,
-        )
+        records, countries, continents = load_file(file_path)
+        if records:
+            self.__file_data = records
+            self.set_countries(countries=countries)
+            self.set_continents(continents=continents)
+        else:
+            log_warn(f"Loaded records from file: {file_path} are empty!")
 
     def set_continents(self, continents):
         self.__request.set_continents(continents)
@@ -107,7 +109,6 @@ class App:
     def get_valid_records(self):
         sum = 0
         valid_records = []
-        log_info("Beginning data analysis.")
         for record in self.__file_data:
             if record and record.is_valid(self.__settings):
                 valid_records.append(record)
