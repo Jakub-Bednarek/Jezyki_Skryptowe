@@ -14,10 +14,11 @@ L4Path = list4/src
 L5Path = list5/src
 L6Path = list6/src
 L7Path = list7/src
+L9Path = list9/src
 
-TARGETS   		= makeDirs list1 list2 list3 list5 list6 list7
+TARGETS   		= makeDirs list1 list2 list3 list5 list6 list7 list9
 BUILD_DIR 		= build
-SUBDIRS   		= list1 list2 list3 list4 list5 list6 list7
+SUBDIRS   		= list1 list2 list3 list4 list5 list6 list7 list9
 SCRIPTS_DIR 	= scripts
 
 COLOR_RED    := $(shell tput -Txterm setaf 1)
@@ -62,6 +63,10 @@ list7: makeDirs
 	@./${SCRIPTS_DIR}/copy_py_bat_txt_scripts.sh ${L7Path} ${BUILD_DIR}/list7
 	python3 ${BUILD_DIR}/list7/Test_data_generator.py build/list7/ ${LIST7_TEST_DATA_FILE_NAME} ${TOTAL_LIST7_TEST_CASES}
 	python3 ${BUILD_DIR}/list7/List7_tester.py build/list7/ ${LIST7_TEST_DATA_FILE_NAME}
+
+list9: makeDirs
+	@echo "${COLOR_YELLOW}Copying all dependencies from list8/src to list9/src${NO_COLOR}"
+	@./${SCRIPTS_DIR}/copy_list9_dependencies.sh
 
 # List1 targets
 kodPowrotu: $(L1Path)/KodPowrotu.cpp
