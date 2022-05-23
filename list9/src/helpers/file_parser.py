@@ -100,10 +100,6 @@ def load_file(file_path: str) -> List[DataRecord]:
                     valid_countries.add(record.country)
                     valid_continents.add(record.continent)
     except Exception as e:
-        messagebox.showerror(
-            "Blad",
-            f"Niepowodzenie podczas ladowania pliku: {file_path}, plik nie istnieje.",
-        )
         return None
 
     log_info(f"Success reading file: {file_path}")
